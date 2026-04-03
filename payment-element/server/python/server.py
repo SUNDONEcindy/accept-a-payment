@@ -18,6 +18,11 @@ stripe.set_app_info(
     url='https://github.com/stripe-samples')
 
 stripe.api_version = '2023-10-16'
+# Never put any keys in code! Always use a secrets vault or environment
+# variable to supply keys to your integration.
+#
+# See https://docs.stripe.com/keys-best-practices and find your
+# keys at https://dashboard.stripe.com/apikeys.
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 
 static_dir = str(os.path.abspath(os.path.join(__file__ , "..", os.getenv("STATIC_DIR"))))

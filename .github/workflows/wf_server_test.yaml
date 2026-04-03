@@ -57,7 +57,7 @@ jobs:
       - name: Collect debug information
         if: ${{ failure() }}
         run: |
-          cat .env
+          perl -pe 's/^(STRIPE_SECRET_KEY=)(.{0,8})(.*)(.{6})$/$1.$2.("*" x length($3)).$4/e' .env
           cat docker-compose.yml
           docker compose ps -a
           docker compose logs web

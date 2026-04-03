@@ -31,6 +31,11 @@ class ConfigHelper
 
     # Once we've done basic key validation, we can set the API
     # key and make deeper assumptions.
+    # Never put any keys in code! Always use a secrets vault or environment
+    # variable to supply keys to your integration.
+    #
+    # See https://docs.stripe.com/keys-best-practices and find your
+    # keys at https://dashboard.stripe.com/apikeys.
     Stripe.api_key = ENV['STRIPE_SECRET_KEY']
 
     helper.valid_paths?
@@ -65,6 +70,15 @@ class ConfigHelper
         f.puts "#{v}=#{@vars[v]}"
       end
     end
+  end
+
+  def redact_key(key)
+    return '(unset)' if key.nil? || key == ''
+
+    prefix = key[0, 8] || ''
+    suffix = key[-6, 6] || key
+    masked_length = [key.length - prefix.length - suffix.length, 0].max
+    "#{prefix}#{'*' * masked_length}#{suffix}"
   end
 
   def valid_paths?
@@ -143,6 +157,11 @@ class ConfigHelper
           exit
         else
           config = @cli_config.fetch("default", @cli_config[@cli_config.keys.first])
+          # Never put any keys in code! Always use a secrets vault or environment
+          # variable to supply keys to your integration.
+          #
+          # See https://docs.stripe.com/keys-best-practices and find your
+          # keys at https://dashboard.stripe.com/apikeys.
           set_dotenv!('STRIPE_SECRET_KEY', config["test_mode_api_key"])
           set_dotenv!('STRIPE_PUBLISHABLE_KEY', config["test_mode_publishable_key"])
           set_dotenv!('STRIPE_WEBHOOK_SECRET', `stripe listen --print-secret`)
@@ -164,10 +183,15 @@ class ConfigHelper
     end
 
     pi = nil
+    # Never put any keys in code! Always use a secrets vault or environment
+    # variable to supply keys to your integration.
+    #
+    # See https://docs.stripe.com/keys-best-practices and find your
+    # keys at https://dashboard.stripe.com/apikeys.
     begin
       pi = Stripe::PaymentIntent.list({ limit: 1 }, { api_key: sk }).data.first
     rescue => e
-      puts "Failed testing an API request with your STRIPE_SECRET_KEY `#{sk}` check `.env`: \n\n#{e}"
+      puts "Failed testing an API request with your STRIPE_SECRET_KEY `#{redact_key(sk)}` check `.env`: \n\n#{e}"
       exit
     end
 

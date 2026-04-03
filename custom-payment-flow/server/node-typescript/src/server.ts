@@ -10,6 +10,11 @@ import express from "express";
 import Stripe from "stripe";
 
 const calculateTax = false;
+// Never put any keys in code! Always use a secrets vault or environment
+// variable to supply keys to your integration.
+//
+// See https://docs.stripe.com/keys-best-practices and find your
+// keys at https://dashboard.stripe.com/apikeys.
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2025-12-15.clover",
   appInfo: { // For sample support and debugging, not required for production:

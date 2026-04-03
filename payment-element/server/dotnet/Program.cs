@@ -5,6 +5,11 @@ using Stripe;
 using Stripe.Tax;
 
 DotNetEnv.Env.Load();
+// Never put any keys in code! Always use a secrets vault or environment
+// variable to supply keys to your integration.
+//
+// See https://docs.stripe.com/keys-best-practices and find your
+// keys at https://dashboard.stripe.com/apikeys.
 StripeConfiguration.ApiKey = Environment.GetEnvironmentVariable("STRIPE_SECRET_KEY");
 
 StripeConfiguration.AppInfo = new AppInfo
@@ -21,6 +26,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<StripeOptions>(options =>
 {
     options.PublishableKey = Environment.GetEnvironmentVariable("STRIPE_PUBLISHABLE_KEY");
+    // Never put any keys in code! Always use a secrets vault or environment
+    // variable to supply keys to your integration.
+    //
+    // See https://docs.stripe.com/keys-best-practices and find your
+    // keys at https://dashboard.stripe.com/apikeys.
     options.SecretKey = Environment.GetEnvironmentVariable("STRIPE_SECRET_KEY");
     options.WebhookSecret = Environment.GetEnvironmentVariable("STRIPE_WEBHOOK_SECRET");
 });
