@@ -247,7 +247,8 @@ class ConfigHelper
           exit
         else
           config = @cli_config.fetch("default", @cli_config[@cli_config.keys.first])
-          # Never put any keys in code! Always use an environment variable (as shown here) or secrets vault to supply keys to your integration.
+          # Never put any keys in code! Always use an environment variable
+          # or secrets vault (as shown here) to supply keys to your integration.
           #
           # See https://docs.stripe.com/keys-best-practices and find your
           # keys at https://dashboard.stripe.com/apikeys.

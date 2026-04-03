@@ -16,7 +16,8 @@ stripe.set_app_info(
     url='https://github.com/stripe-samples')
 
 stripe.api_version = '2023-10-16'
-# Never put any keys in code! Always use an environment variable (as shown here) or secrets vault to supply keys to your integration.
+# Never put any keys in code! Always use an environment variable
+# or secrets vault (as shown here) to supply keys to your integration.
 #
 # See https://docs.stripe.com/keys-best-practices and find your
 # keys at https://dashboard.stripe.com/apikeys.
