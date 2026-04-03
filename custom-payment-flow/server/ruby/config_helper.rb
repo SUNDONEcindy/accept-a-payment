@@ -31,11 +31,6 @@ class ConfigHelper
 
     # Once we've done basic key validation, we can set the API
     # key and make deeper assumptions.
-    # Never put any keys in code! Always use a secrets vault or environment
-    # variable to supply keys to your integration.
-    #
-    # See https://docs.stripe.com/keys-best-practices and find your
-    # keys at https://dashboard.stripe.com/apikeys.
     Stripe.api_key = ENV['STRIPE_SECRET_KEY']
 
     helper.valid_paths?
@@ -183,11 +178,6 @@ class ConfigHelper
     end
 
     pi = nil
-    # Never put any keys in code! Always use a secrets vault or environment
-    # variable to supply keys to your integration.
-    #
-    # See https://docs.stripe.com/keys-best-practices and find your
-    # keys at https://dashboard.stripe.com/apikeys.
     begin
       pi = Stripe::PaymentIntent.list({ limit: 1 }, { api_key: sk }).data.first
     rescue => e

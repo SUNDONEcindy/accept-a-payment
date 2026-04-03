@@ -18,11 +18,6 @@ services:
     image: stripe/stripe-cli:v1.5.3
     init: true
     entrypoint: ['/bin/ash']
-    # Never put any keys in code! Always use a secrets vault or environment
-    # variable to supply keys to your integration.
-    #
-    # See https://docs.stripe.com/keys-best-practices and find your
-    # keys at https://dashboard.stripe.com/apikeys.
     command: ['-c', '/bin/stripe --api-key=$STRIPE_SECRET_KEY listen --forward-to http://web:4242/webhook']
     env_file: .env
     environment:
