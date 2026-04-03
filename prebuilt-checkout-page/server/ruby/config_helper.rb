@@ -78,10 +78,9 @@ class ConfigHelper
   def redact_key(key)
     return '(unset)' if key.nil? || key == ''
 
-    prefix = key[0, 8] || ''
-    suffix = key[-6, 6] || key
-    masked_length = [key.length - prefix.length - suffix.length, 0].max
-    "#{prefix}#{'*' * masked_length}#{suffix}"
+    return key[0, 4] + ('*' * (key.length - 4)) if key.length <= 14
+
+    "#{key[0, 8]}#{'*' * (key.length - 14)}#{key[-6..]}"
   end
 
   def valid_prices?
