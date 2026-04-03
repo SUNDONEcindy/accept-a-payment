@@ -77,7 +77,7 @@ jobs:
       - name: Collect debug information
         if: ${{ failure() }}
         run: |
-          # Note: .env contains test-mode keys only. In a real environment with
+          # Note: In this demo, .env contains test-mode keys only. In a real environment with
           # live keys, avoid logging .env contents to prevent secret exposure.
           cat .env
           cat docker-compose.yml
