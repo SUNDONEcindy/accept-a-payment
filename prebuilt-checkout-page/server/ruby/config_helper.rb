@@ -75,6 +75,14 @@ class ConfigHelper
     end
   end
 
+  def redact_key(key)
+    return '(unset)' if key.nil? || key == ''
+
+    return key[0, 4] + ('*' * (key.length - 4)) if key.length <= 14
+
+    "#{key[0, 8]}#{'*' * (key.length - 14)}#{key[-6..]}"
+  end
+
   def valid_prices?
     puts "Checking that a valid price is configured..."
     _valid_price?('PRICE', 1500)
@@ -239,6 +247,11 @@ class ConfigHelper
           exit
         else
           config = @cli_config.fetch("default", @cli_config[@cli_config.keys.first])
+          # Don't put any keys in code. Use an environment variable (as shown
+          # here) or secrets vault to supply keys to your integration.
+          #
+          # See https://docs.stripe.com/keys-best-practices and find your
+          # keys at https://dashboard.stripe.com/apikeys.
           set_dotenv!('STRIPE_SECRET_KEY', config["test_mode_api_key"])
           set_dotenv!('STRIPE_PUBLISHABLE_KEY', config["test_mode_publishable_key"])
           set_dotenv!('STRIPE_WEBHOOK_SECRET', `stripe listen --print-secret`)
@@ -263,7 +276,7 @@ class ConfigHelper
     begin
       pi = Stripe::PaymentIntent.list({ limit: 1 }, { api_key: sk }).data.first
     rescue => e
-      puts "Failed testing an API request with your STRIPE_SECRET_KEY `#{sk}` check `.env`: \n\n#{e}"
+      puts "Failed testing an API request with your STRIPE_SECRET_KEY `#{redact_key(sk)}` check `.env`: \n\n#{e}"
       exit
     end
 

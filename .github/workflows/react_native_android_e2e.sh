@@ -8,6 +8,11 @@ function killBackgroundJobs() {
 
 trap killBackgroundJobs EXIT
 
+# Don't put any keys in code. Use an environment variable (as shown
+# here) or secrets vault to supply keys to your integration.
+#
+# See https://docs.stripe.com/keys-best-practices and find your
+# keys at https://dashboard.stripe.com/apikeys.
 export STRIPE_WEBHOOK_SECRET=$(stripe listen --api-key $STRIPE_SECRET_KEY --print-secret)
 stripe listen --forward-to http://localhost:4242/webhook &
 
