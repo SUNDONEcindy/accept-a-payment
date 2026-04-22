@@ -10,6 +10,16 @@ on:
       - 'prebuilt-checkout-page/server/node/**'
       - 'payment-element/server/node/**'
       - 'payment-element/server/node-typescript/**'
+      - 'elements-with-checkout-sessions/server/node/**'
+      - '!**.md'
+  pull_request:
+    paths:
+      - 'custom-payment-flow/server/node/**'
+      - 'custom-payment-flow/server/node-typescript/**'
+      - 'prebuilt-checkout-page/server/node/**'
+      - 'payment-element/server/node/**'
+      - 'payment-element/server/node-typescript/**'
+      - 'elements-with-checkout-sessions/server/node/**'
       - '!**.md'
   workflow_dispatch:
 

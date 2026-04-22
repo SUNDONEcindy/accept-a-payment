@@ -8,6 +8,16 @@ on:
       - 'custom-payment-flow/client/**'
       - 'prebuilt-checkout-page/client/**'
       - 'payment-element/client/**'
+      - 'elements-with-checkout-sessions/client/**'
+      - '!**/client/vue-cva/**'
+      - '!**.css'
+      - '!**.md'
+  pull_request:
+    paths:
+      - 'custom-payment-flow/client/**'
+      - 'prebuilt-checkout-page/client/**'
+      - 'payment-element/client/**'
+      - 'elements-with-checkout-sessions/client/**'
       - '!**/client/vue-cva/**'
       - '!**.css'
       - '!**.md'
