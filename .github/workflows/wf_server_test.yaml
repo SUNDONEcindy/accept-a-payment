@@ -22,10 +22,12 @@ jobs:
             tests: prebuilt_checkout_page_spec.rb
           - sample: payment-element
             tests: payment_element_server_spec.rb
+          - sample: elements-with-checkout-sessions
+            tests: elements_with_checkout_sessions_server_spec.rb
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-          
+
       - name: Checkout CI runner
         uses: actions/checkout@v4
         with:
@@ -33,6 +35,8 @@ jobs:
           path: 'sample-ci'
 
       - name: Run tests
+        # Only run elements-with-checkout-sessions on latest images (skip legacy versions)
+        if: ${{ matrix.target.sample != 'elements-with-checkout-sessions' || contains(fromJSON('["node:latest","node:lts","ruby:latest","python:latest","golang:latest","maven:latest","mcr.microsoft.com/dotnet/sdk:9.0"]'), inputs.server_image) }}
         env:
           STRIPE_PUBLISHABLE_KEY: ${{ secrets.TEST_STRIPE_PUBLISHABLE_KEY }}
           STRIPE_SECRET_KEY: ${{ secrets.TEST_STRIPE_SECRET_KEY }}
